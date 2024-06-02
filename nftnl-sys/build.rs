@@ -54,6 +54,11 @@ fn get_env(var: &'static str) -> Option<PathBuf> {
 }
 
 fn main() {
+    // skip build script when compiling on do docs.rs
+    if env::var("DOCS_RS").is_ok() {
+        return;
+    }
+
     if let Some(lib_dir) = get_env("LIBNFTNL_LIB_DIR") {
         if !lib_dir.is_dir() {
             panic!(
