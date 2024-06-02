@@ -103,13 +103,15 @@ pub enum ProtoFamily {
 
 /// Trait for all types in this crate that can serialize to a Netlink message.
 ///
-/// # Unsafe
+/// # Safety
 ///
 /// This trait is unsafe to implement because it must never serialize to anything larger than the
 /// largest possible netlink message. Internally the `nft_nlmsg_maxsize()` function is used to make
 /// sure the `buf` pointer passed to `write` always has room for the largest possible Netlink
 /// message.
 pub unsafe trait NlMsg {
+    /// # Safety
+    ///
     /// Serializes the Netlink message to the buffer at `buf`. `buf` must have space for at least
     /// `nft_nlmsg_maxsize()` bytes. This is not checked by the compiler, which is why this method
     /// is unsafe.
